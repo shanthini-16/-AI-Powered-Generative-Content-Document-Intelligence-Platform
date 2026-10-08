@@ -6,7 +6,6 @@
 [![Pydantic](https://img.shields.io/badge/Pydantic-2.13-emerald.svg)](https://docs.pydantic.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3-06b6d4.svg)](https://tailwindcss.com/)
 [![Chart.js](https://img.shields.io/badge/Chart.js-v4-ff6384.svg)](https://www.chartjs.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 An enterprise-grade, end-to-end **AI-Powered Generative Content & Document Intelligence Platform** designed to ingest complex multi-format corporate files, execute context-aware multi-step generative workflows, enforce strict Pydantic schema validation, and evaluate outputs across quantitative quality benchmarks (Relevance, Consistency, Factuality, Readability, and ROUGE metrics).
 
@@ -255,8 +254,3 @@ OK
 - **Security & Privacy**: The `.gitignore` file strictly excludes `.env`, secrets, virtual environments, and temporary files. Never commit your `.env` file to version control.
 - **Extensibility**: Custom prompt templates, Pydantic schemas, and workflow pipelines can be registered with a single method call in `core/prompt_engine.py` or `core/workflow_orchestrator.py`.
 - **Pure Python Evaluation**: ROUGE-1, ROUGE-2, and ROUGE-L calculations are implemented purely in native Python, eliminating external heavy C-extension dependencies.
-
----
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
