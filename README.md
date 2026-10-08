@@ -201,12 +201,36 @@ DEBUG=True
 ```
 > **Note**: You can obtain a free Gemini API key from [Google AI Studio](https://aistudio.google.com/).
 
-### 5. Run the Web Application
+### 5. Run the Web Application Locally
 ```bash
 python web/app.py
 ```
 Open your browser and navigate to:
 👉 **`http://127.0.0.1:5050`** *(or `http://localhost:5050`)*
+
+---
+
+## ☁️ Deployment on Render
+
+This project is configured for deployment on **Render** as a Python Web Service using `gunicorn` and the provided `render.yaml` or `Procfile`.
+
+### Quick Deploy via Render Blueprint:
+1. Sign in to your Render Dashboard at [render.com](https://render.com).
+2. Click **New +** -> **Blueprint**, and select this repository: `shanthini-16/-AI-Powered-Generative-Content-Document-Intelligence-Platform`.
+3. Render automatically detects `render.yaml` with the build and start commands.
+4. Set the `GEMINI_API_KEY` environment variable when prompted.
+5. Click **Apply** to build and launch!
+
+### Manual Web Service Setup:
+- **Service Type**: Web Service
+- **Runtime**: `Python 3`
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120`
+- **Environment Variables**:
+  - `GEMINI_API_KEY`: *(Your Gemini API key from Google AI Studio)*
+  - `GEMINI_MODEL`: `gemini-3.1-flash-lite`
+  - `ENGINE_MODE`: `auto`
+  - `PYTHON_VERSION`: `3.12.4`
 
 ---
 

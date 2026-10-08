@@ -327,7 +327,7 @@ def run_pipeline():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
-    host = os.environ.get("HOST", "127.0.0.1")
-    debug = os.environ.get("DEBUG", "True").lower() == "true"
+    host = os.environ.get("HOST", "0.0.0.0")
+    debug = os.environ.get("DEBUG", "False").lower() == "true"
     print(f"[*] Starting DocIntel & GenAI Platform on http://{host}:{port}")
     app.run(host=host, port=port, debug=debug, use_reloader=False)
