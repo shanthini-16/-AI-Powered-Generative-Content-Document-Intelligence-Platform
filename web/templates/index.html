@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocIntel & GenAI Platform | Intelligent Document Processing</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="bg-[#070c16] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-teal-500 selection:text-slate-950">
+
+    <!-- Top Navigation Header -->
+    <header class="border-b border-slate-800/90 bg-[#0b1220]/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-400 via-teal-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-teal-500/25">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-slate-950 stroke-[2.5]"></i>
+                </div>
+                <div>
+                    <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-white via-teal-100 to-teal-400 bg-clip-text text-transparent">DocIntel & GenAI</span>
+                    <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-300 border border-teal-500/25">v2.4 Enterprise</span>
+                </div>
+            </div>
+
+            <!-- Global Status Pills -->
+            <div class="flex items-center space-x-3">
+                <div id="statusEngineBadge" class="flex items-center space-x-2 text-xs font-medium px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="engineStatusText">Gemini Online</span>
+                </div>
+                <button onclick="switchTab('settings')" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-teal-300 transition border border-slate-700/60">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="border-b border-slate-800/80 bg-[#0a101d]/60 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 overflow-x-auto py-2">
+            <button onclick="switchTab('dashboard')" class="tab-btn active" data-tab="dashboard">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                <span>Dashboard</span>
+            </button>
+            <button onclick="switchTab('ingest')" class="tab-btn" data-tab="ingest">
+                <i data-lucide="file-up" class="w-4 h-4"></i>
+                <span>Document Ingestion</span>
+            </button>
+            <button onclick="switchTab('prompt_studio')" class="tab-btn" data-tab="prompt_studio">
+                <i data-lucide="terminal" class="w-4 h-4"></i>
+                <span>Prompt Studio</span>
+            </button>
+            <button onclick="switchTab('workflow')" class="tab-btn" data-tab="workflow">
+                <i data-lucide="git-branch" class="w-4 h-4"></i>
+                <span>Multi-Step Pipeline</span>
+            </button>
+            <button onclick="switchTab('structured_validation')" class="tab-btn" data-tab="structured_validation">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>Validation & Guardrails</span>
+            </button>
+            <button onclick="switchTab('evaluation')" class="tab-btn" data-tab="evaluation">
+                <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                <span>Evaluation Benchmarks</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ============================================================== -->
+        <!-- TAB 1: DASHBOARD & OVERVIEW                                     -->
+        <!-- ============================================================== -->
+        <section id="tab-dashboard" class="tab-content active space-y-6">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-950/70 via-slate-900 to-emerald-950/50 p-8 border border-teal-500/30 shadow-2xl shadow-teal-950/40">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="text-xs uppercase tracking-widest font-bold text-teal-400">Generative AI • NLP • Document Intelligence</span>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 leading-tight">
+                        AI-Powered Document Intelligence & Generative Content Platform
+                    </h1>
+                    <p class="text-slate-300 mt-3 text-sm sm:text-base leading-relaxed">
+                        End-to-end framework combining multi-format document ingestion, prompt template engineering,
+                        context-aware DAG workflows, Pydantic schema validation, and multi-dimensional quality evaluation (Relevance, Consistency, Factuality, ROUGE).
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <button onclick="loadSampleDoc('annual_financial_report.txt')" class="btn-primary flex items-center space-x-2">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            <span>Load Financial Report Demo</span>
+                        </button>
+                        <button onclick="loadSampleDoc('clinical_trial_summary.txt')" class="btn-secondary flex items-center space-x-2">
+                            <i data-lucide="activity" class="w-4 h-4 text-teal-400"></i>
+                            <span>Load Clinical Trial Demo</span>
+                        </button>
+                        <button onclick="switchTab('workflow')" class="btn-secondary flex items-center space-x-2">
+                            <i data-lucide="play" class="w-4 h-4 text-cyan-400"></i>
+                            <span>Run Multi-Step Pipeline</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preloaded Sample Documents Showcase -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-3 flex items-center space-x-2">
+                    <i data-lucide="folder" class="w-5 h-5 text-teal-400"></i>
+                    <span>Quick-Start Sample Intelligence Corpora</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="samplesGrid">
+                    <!-- Cards will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Architecture Pillars -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                <div class="card p-5">
+                    <div class="h-10 w-10 rounded-lg bg-teal-500/10 border border-teal-500/25 flex items-center justify-center text-teal-400 mb-3">
+                        <i data-lucide="file-search" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="text-base font-semibold text-white">Multi-Format Ingestion & Chunking</h4>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                        Native parsing of PDF, Word (.docx), CSV, JSON, Markdown, and TXT with paragraph, fixed-window, and section chunking strategies.
+                    </p>
+                </div>
+
+                <div class="card p-5">
+                    <div class="h-10 w-10 rounded-lg bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 mb-3">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="text-base font-semibold text-white">Context-Aware DAG Orchestration</h4>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                        Chains classification, entity extraction, and synthesis. Downstream generation steps inherit intermediate artifacts for maximum grounding.
+                    </p>
+                </div>
+
+                <div class="card p-5">
+                    <div class="h-10 w-10 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 mb-3">
+                        <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="text-base font-semibold text-white">Validation & Multi-Criteria Benchmarks</h4>
+                    <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                        Pydantic model validation, JSON self-repair, hallucination/grounding ratios, and quantitative scoring across 5 key dimensions with radar charts.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================== -->
+        <!-- TAB 2: DOCUMENT INGESTION & PREPROCESSING                       -->
+        <!-- ============================================================== -->
+        <section id="tab-ingest" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Document Ingestion & Preprocessing</h2>
+                    <p class="text-sm text-slate-400">Upload or paste text documents. Select chunking strategies and examine linguistic statistics.</p>
+                </div>
+                <div id="loadedDocBadge" class="hidden text-xs px-3 py-1.5 rounded-lg bg-teal-500/10 border border-teal-500/30 text-teal-300">
+                    Active: <span id="loadedDocName" class="font-bold">None</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Upload & Config Controls (5 Cols) -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="card p-5">
+                        <h3 class="text-sm font-semibold text-slate-200 mb-3 flex items-center space-x-2">
+                            <i data-lucide="upload-cloud" class="w-4 h-4 text-teal-400"></i>
+                            <span>Upload Document File</span>
+                        </h3>
+                        <!-- Drag and Drop Box -->
+                        <div id="dropZone" class="border-2 border-dashed border-slate-700/80 hover:border-teal-500/70 rounded-xl p-6 text-center cursor-pointer transition bg-slate-900/50 hover:bg-teal-950/20">
+                            <input type="file" id="fileInput" class="hidden" accept=".pdf,.docx,.txt,.md,.csv,.json,.html">
+                            <i data-lucide="file-plus" class="w-10 h-10 mx-auto text-slate-400 mb-2"></i>
+                            <p class="text-sm text-slate-200 font-medium">Click to upload or drag & drop</p>
+                            <p class="text-xs text-slate-400 mt-1">PDF, DOCX, TXT, CSV, Markdown, JSON (up to 25MB)</p>
+                        </div>
+                    </div>
+
+                    <!-- Direct Text Input Alternative -->
+                    <div class="card p-5">
+                        <h3 class="text-sm font-semibold text-slate-200 mb-2 flex items-center space-x-2">
+                            <i data-lucide="edit-3" class="w-4 h-4 text-teal-400"></i>
+                            <span>Or Paste Raw Document Text</span>
+                        </h3>
+                        <textarea id="rawTextInput" rows="5" class="input-field text-xs font-mono" placeholder="Paste requirements, contracts, reports, or articles here..."></textarea>
+                        <button onclick="ingestDirectText()" class="btn-primary w-full mt-3 text-xs">
+                            Ingest Pasted Text
+                        </button>
+                    </div>
+
+                    <!-- Chunking Strategy Selector -->
+                    <div class="card p-5 space-y-4">
+                        <h3 class="text-sm font-semibold text-slate-200 flex items-center space-x-2">
+                            <i data-lucide="sliders" class="w-4 h-4 text-teal-400"></i>
+                            <span>Chunking Parameters</span>
+                        </h3>
+                        <div>
+                            <label class="text-xs text-slate-400 block mb-1">Chunking Strategy</label>
+                            <select id="chunkStrategySelect" class="input-field text-xs">
+                                <option value="paragraph" selected>Paragraph-Aware (Semantic boundary)</option>
+                                <option value="fixed_window">Fixed Sliding Window (Word/Token bounded)</option>
+                                <option value="section">Section/Heading-Aware (Structural)</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Chunk Size (words)</label>
+                                <input type="number" id="chunkSizeInput" value="500" class="input-field text-xs">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Overlap (words)</label>
+                                <input type="number" id="chunkOverlapInput" value="100" class="input-field text-xs">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Inspection Pane (7 Cols) -->
+                <div class="lg:col-span-7 space-y-5">
+                    <!-- Stats Bar -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="statsBar">
+                        <div class="card p-3 text-center">
+                            <span class="text-xs text-slate-400 block">Total Words</span>
+                            <span id="statWords" class="text-xl font-bold text-white mt-1">-</span>
+                        </div>
+                        <div class="card p-3 text-center">
+                            <span class="text-xs text-slate-400 block">Est. Tokens</span>
+                            <span id="statTokens" class="text-xl font-bold text-teal-400 mt-1">-</span>
+                        </div>
+                        <div class="card p-3 text-center">
+                            <span class="text-xs text-slate-400 block">Total Chunks</span>
+                            <span id="statChunks" class="text-xl font-bold text-cyan-400 mt-1">-</span>
+                        </div>
+                        <div class="card p-3 text-center">
+                            <span class="text-xs text-slate-400 block">Lexical Richness</span>
+                            <span id="statDiversity" class="text-xl font-bold text-emerald-400 mt-1">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Cleaned Document Preview & Chunks Viewer -->
+                    <div class="card p-5">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <div class="flex space-x-2">
+                                <button onclick="setDocViewMode('clean')" id="viewModeCleanBtn" class="px-3 py-1 rounded-md text-xs font-semibold bg-teal-600 text-white shadow-sm shadow-teal-500/20">
+                                    Normalized Text
+                                </button>
+                                <button onclick="setDocViewMode('chunks')" id="viewModeChunksBtn" class="px-3 py-1 rounded-md text-xs font-semibold bg-slate-800/80 text-slate-300">
+                                    Chunks (<span id="chunkCountPill">0</span>)
+                                </button>
+                                <button onclick="setDocViewMode('keywords')" id="viewModeKeywordsBtn" class="px-3 py-1 rounded-md text-xs font-semibold bg-slate-800/80 text-slate-300">
+                                    Top Keywords
+                                </button>
+                            </div>
+                            <span id="docTypeBadge" class="text-xs text-slate-400 uppercase font-mono">No Document Loaded</span>
+                        </div>
+
+                        <!-- Sub-view 1: Normalized Text -->
+                        <div id="subViewClean" class="overflow-y-auto max-h-[420px] font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed p-3 bg-slate-950/70 rounded-lg border border-slate-800">
+                            Awaiting document ingestion. Choose a sample from the dashboard or upload a file.
+                        </div>
+
+                        <!-- Sub-view 2: Chunks List -->
+                        <div id="subViewChunks" class="hidden overflow-y-auto max-h-[420px] space-y-3">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Sub-view 3: Keywords & Sections -->
+                        <div id="subViewKeywords" class="hidden overflow-y-auto max-h-[420px] space-y-4">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================== -->
+        <!-- TAB 3: PROMPT STUDIO & TEMPLATE WORKBENCH                       -->
+        <!-- ============================================================== -->
+        <section id="tab-prompt_studio" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Prompt Engineering Studio</h2>
+                    <p class="text-sm text-slate-400">Design, customize, and execute structured prompt templates across Summarization, Extraction, Classification, and Content Generation.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Template Selection & Inputs (5 Cols) -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="card p-5 space-y-4">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">Select Prompt Template</label>
+                            <select id="templateSelect" onchange="onTemplateSelected()" class="input-field text-xs">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <p id="templateDesc" class="text-xs text-slate-400 leading-relaxed italic"></p>
+
+                        <!-- User Requirements / Focus -->
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">User Requirements & Focus</label>
+                            <textarea id="promptReqInput" rows="3" class="input-field text-xs" placeholder="e.g. Focus on financial metrics, operational risks, and executive decisions..."></textarea>
+                        </div>
+
+                        <!-- Target Audience -->
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">Target Audience</label>
+                            <input type="text" id="promptAudienceInput" value="Executive Leadership & Board" class="input-field text-xs">
+                        </div>
+
+                        <!-- Model Parameters -->
+                        <div class="pt-2 border-t border-slate-800 grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Temperature: <span id="tempVal">0.2</span></label>
+                                <input type="range" id="tempSlider" min="0" max="1" step="0.05" value="0.2" oninput="document.getElementById('tempVal').innerText = this.value" class="w-full accent-teal-400">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400 block mb-1">Execution Mode</label>
+                                <select id="promptModeSelect" class="input-field text-xs">
+                                    <option value="auto">Auto (Gemini + Local)</option>
+                                    <option value="gemini">Gemini Cloud Live</option>
+                                    <option value="local">Local Intelligent NLP</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button onclick="executePromptStudio()" id="runPromptBtn" class="btn-primary w-full flex items-center justify-center space-x-2">
+                            <i data-lucide="play" class="w-4 h-4"></i>
+                            <span>Generate Response</span>
+                        </button>
+                    </div>
+
+                    <!-- System Prompt Inspection / Edit -->
+                    <div class="card p-5">
+                        <button onclick="toggleSystemPromptAccordion()" class="w-full flex items-center justify-between text-xs font-semibold text-slate-300">
+                            <span class="flex items-center space-x-2">
+                                <i data-lucide="shield" class="w-4 h-4 text-teal-400"></i>
+                                <span>Inspect / Customize System Role Prompt</span>
+                            </span>
+                            <i data-lucide="chevron-down" id="sysPromptChevron" class="w-4 h-4 transition"></i>
+                        </button>
+                        <div id="sysPromptContainer" class="hidden mt-3">
+                            <textarea id="customSystemPrompt" rows="4" class="input-field text-xs font-mono"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Output & Quality Checks (7 Cols) -->
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="card p-5 flex flex-col h-full min-h-[500px]">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-semibold text-white">Generated Response</span>
+                                <span id="execMetaBadge" class="hidden text-xs px-2 py-0.5 rounded bg-slate-800 text-teal-300 font-mono border border-slate-700/60"></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="copyOutput()" class="p-1.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white" title="Copy to clipboard">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="downloadOutput('output.md')" class="p-1.5 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white" title="Download Markdown">
+                                    <i data-lucide="download" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Rendered Output Area -->
+                        <div id="promptOutputArea" class="flex-1 overflow-y-auto max-h-[500px] p-4 bg-slate-950/70 rounded-lg border border-slate-800 text-xs font-sans text-slate-200 leading-relaxed whitespace-pre-wrap">
+                            Click 'Generate Response' to run the active prompt template on the ingested document.
+                        </div>
+
+                        <!-- Instant Action Hooks -->
+                        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                            <div class="text-xs text-slate-400">Next Steps:</div>
+                            <div class="flex space-x-2">
+                                <button onclick="runValidationOnCurrentOutput()" class="btn-secondary text-xs flex items-center space-x-1">
+                                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                    <span>Run Validation</span>
+                                </button>
+                                <button onclick="runEvaluationOnCurrentOutput()" class="btn-secondary text-xs flex items-center space-x-1">
+                                    <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-cyan-400"></i>
+                                    <span>Run Evaluation</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================== -->
+        <!-- TAB 4: CONTEXT-AWARE MULTI-STEP PIPELINE                        -->
+        <!-- ============================================================== -->
+        <section id="tab-workflow" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Context-Aware Multi-Step Orchestration</h2>
+                    <p class="text-sm text-slate-400">Execute sequenced DAG pipelines where classification, entity extraction, and synthesis feed forward into each subsequent step.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Pipeline Configuration (4 Cols) -->
+                <div class="lg:col-span-4 space-y-5">
+                    <div class="card p-5 space-y-4">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">Select Workflow Pipeline</label>
+                            <select id="pipelineSelect" onchange="onPipelineSelected()" class="input-field text-xs">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <p id="pipelineDesc" class="text-xs text-slate-400 leading-relaxed"></p>
+
+                        <div>
+                            <label class="text-xs font-semibold text-slate-300 block mb-1">Workflow Directives & Criteria</label>
+                            <textarea id="pipelineReqInput" rows="3" class="input-field text-xs" placeholder="e.g. Focus on executive risks, financial covenants, and 30-day action items..."></textarea>
+                        </div>
+
+                        <button onclick="executePipeline()" id="runPipelineBtn" class="btn-primary w-full flex items-center justify-center space-x-2">
+                            <i data-lucide="play-circle" class="w-4 h-4"></i>
+                            <span>Execute Multi-Step Pipeline</span>
+                        </button>
+                    </div>
+
+                    <!-- Steps Timeline Card -->
+                    <div class="card p-5">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center space-x-2">
+                            <i data-lucide="list-ordered" class="w-4 h-4 text-teal-400"></i>
+                            <span>Pipeline Step Sequence</span>
+                        </h4>
+                        <div id="pipelineStepsList" class="space-y-3">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Intermediate Artifacts & Final Result (8 Cols) -->
+                <div class="lg:col-span-8 space-y-5">
+                    <!-- Progress Card -->
+                    <div id="pipelineProgressCard" class="hidden card p-4 border border-teal-500/35 bg-teal-950/20">
+                        <div class="flex items-center justify-between text-xs font-semibold text-teal-300 mb-2">
+                            <span class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-teal-400 animate-ping"></span>
+                                <span id="pipelineProgressLabel">Orchestrating Workflow Steps...</span>
+                            </span>
+                            <span id="pipelineProgressPct">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div id="pipelineProgressBar" class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 h-2 rounded-full w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Intermediate Artifacts Tabs -->
+                    <div class="card p-5">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <div class="flex space-x-2" id="artifactTabsContainer">
+                                <button class="artifact-tab active" data-key="final">Final Synthesis</button>
+                                <!-- Populated dynamically based on pipeline steps -->
+                            </div>
+                        </div>
+
+                        <!-- Active Artifact Content Viewer -->
+                        <div id="artifactViewer" class="overflow-y-auto max-h-[480px] p-4 bg-slate-950/70 rounded-lg border border-slate-800 text-xs font-sans text-slate-200 leading-relaxed whitespace-pre-wrap">
+                            Run a pipeline to view intermediate and final chained artifacts.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================== -->
+        <!-- TAB 5: STRUCTURED VALIDATION & QUALITY ASSURANCE               -->
+        <!-- ============================================================== -->
+        <section id="tab-structured_validation" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Output Validation & Guardrail Checks</h2>
+                    <p class="text-sm text-slate-400">Pydantic schema validation, JSON structural self-repair, hallucination/factual grounding verification, and PII scanning.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Validation Dashboard (5 Cols) -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="card p-5 text-center">
+                        <span class="text-xs uppercase tracking-wider text-slate-400 font-bold block mb-1">Validation Status</span>
+                        <div id="valStatusPill" class="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-base font-bold bg-slate-800 text-slate-400 mt-2">
+                            <span>Awaiting Check</span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-800 flex justify-around">
+                            <div>
+                                <span class="text-xs text-slate-400 block">Quality Score</span>
+                                <span id="valQualityScore" class="text-2xl font-bold text-white">-</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">Grounding Ratio</span>
+                                <span id="valGroundingRatio" class="text-2xl font-bold text-teal-400">-</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">JSON Repaired</span>
+                                <span id="valRepairedFlag" class="text-2xl font-bold text-cyan-400">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Errors & Warnings List -->
+                    <div class="card p-5">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center space-x-2">
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>
+                            <span>Integrity Diagnostic Log</span>
+                        </h4>
+                        <div id="valDiagnosticList" class="space-y-2 text-xs">
+                            <div class="p-3 bg-slate-900/60 rounded-lg text-slate-400">No validation run yet.</div>
+                        </div>
+                    </div>
+
+                    <!-- Factual Grounding Breakdown -->
+                    <div class="card p-5">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center space-x-2">
+                            <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i>
+                            <span>Factual Grounding Check</span>
+                        </h4>
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between text-slate-300">
+                                <span>Total Factual Claims Checked:</span>
+                                <span id="valFactsChecked" class="font-bold">0</span>
+                            </div>
+                            <div class="flex justify-between text-emerald-400">
+                                <span>Verified Source Claims:</span>
+                                <span id="valFactsVerified" class="font-bold">0</span>
+                            </div>
+                            <div class="flex justify-between text-rose-400">
+                                <span>Unverified / Hallucinated:</span>
+                                <span id="valFactsUnverified" class="font-bold">0</span>
+                            </div>
+                        </div>
+                        <div id="groundingItemsList" class="mt-3 pt-3 border-t border-slate-800 space-y-1 text-xs">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Structured JSON & Pydantic Schema Viewer (7 Cols) -->
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="card p-5">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                            <div class="flex items-center space-x-2">
+                                <i data-lucide="code" class="w-4 h-4 text-teal-400"></i>
+                                <span class="text-sm font-semibold text-white">Structured Output / Pydantic Data Viewer</span>
+                            </div>
+                            <button onclick="generateStructuredPydanticOutput()" class="btn-primary text-xs flex items-center space-x-1">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                <span>Generate Schema JSON</span>
+                            </button>
+                        </div>
+                        <div id="structuredJsonViewer" class="overflow-y-auto max-h-[500px] p-4 bg-slate-950/80 rounded-lg border border-slate-800 font-mono text-xs text-teal-300 whitespace-pre leading-relaxed">
+                            {
+  "status": "Ready for schema extraction"
+}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================== -->
+        <!-- TAB 6: MULTI-DIMENSIONAL EVALUATION & BENCHMARKS               -->
+        <!-- ============================================================== -->
+        <section id="tab-evaluation" class="tab-content space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Multi-Dimensional Quality Evaluation</h2>
+                    <p class="text-sm text-slate-400">Rigorous quantitative evaluation across Relevance, Consistency, Factuality, Completeness, Readability, and ROUGE metrics.</p>
+                </div>
+                <button onclick="runEvaluationOnCurrentOutput()" class="btn-primary text-xs flex items-center space-x-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    <span>Recalculate Benchmark</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Radar Chart & Grade (5 Cols) -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="card p-5 text-center">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Overall Quality Grade</span>
+                            <span id="evalGradeBadge" class="px-3 py-1 rounded-full text-base font-extrabold bg-teal-500/15 text-teal-300 border border-teal-500/30">Grade: -</span>
+                        </div>
+                        <div class="text-4xl font-extrabold text-white mt-1">
+                            <span id="evalOverallIndex">-</span><span class="text-lg text-slate-400"> / 100</span>
+                        </div>
+                        <!-- Radar Canvas -->
+                        <div class="mt-4 relative h-64 w-full flex items-center justify-center">
+                            <canvas id="evalRadarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Actionable Optimization Recommendations -->
+                    <div class="card p-5">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center space-x-2">
+                            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
+                            <span>Actionable Prompt Tuning Insights</span>
+                        </h4>
+                        <ul id="evalRecommendationsList" class="space-y-2 text-xs text-slate-300">
+                            <li>Run an evaluation to generate recommendations.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Detailed Metrics Cards (7 Cols) -->
+                <div class="lg:col-span-7 space-y-5">
+                    <!-- Dimension Breakdown Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="evalCardsGrid">
+                        <!-- Factuality Card -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-semibold text-slate-300">Factuality & Grounding</span>
+                                <span id="evalFactualityPct" class="text-xs font-bold text-emerald-400">-%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 mb-2">
+                                <div id="evalFactualityBar" class="bg-emerald-500 h-1.5 rounded-full w-0 transition-all duration-500"></div>
+                            </div>
+                            <p id="evalFactualityExpl" class="text-xs text-slate-400 leading-snug">Evaluates source grounding and entity preservation.</p>
+                        </div>
+
+                        <!-- Relevance Card -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-semibold text-slate-300">Intent Relevance</span>
+                                <span id="evalRelevancePct" class="text-xs font-bold text-teal-400">-%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 mb-2">
+                                <div id="evalRelevanceBar" class="bg-teal-500 h-1.5 rounded-full w-0 transition-all duration-500"></div>
+                            </div>
+                            <p id="evalRelevanceExpl" class="text-xs text-slate-400 leading-snug">Cosine TF-IDF alignment and query keyword coverage.</p>
+                        </div>
+
+                        <!-- Consistency Card -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-semibold text-slate-300">Narrative Consistency</span>
+                                <span id="evalConsistencyPct" class="text-xs font-bold text-cyan-400">-%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 mb-2">
+                                <div id="evalConsistencyBar" class="bg-cyan-500 h-1.5 rounded-full w-0 transition-all duration-500"></div>
+                            </div>
+                            <p id="evalConsistencyExpl" class="text-xs text-slate-400 leading-snug">Structural flow and absence of contradictions.</p>
+                        </div>
+
+                        <!-- Readability Card -->
+                        <div class="card p-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-semibold text-slate-300">Readability & Fluency</span>
+                                <span id="evalReadabilityPct" class="text-xs font-bold text-emerald-400">-%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5 mb-2">
+                                <div id="evalReadabilityBar" class="bg-emerald-400 h-1.5 rounded-full w-0 transition-all duration-500"></div>
+                            </div>
+                            <p id="evalReadabilityExpl" class="text-xs text-slate-400 leading-snug">Flesch Reading Ease and linguistic clarity score.</p>
+                        </div>
+                    </div>
+
+                    <!-- ROUGE Score Benchmark Card -->
+                    <div class="card p-5">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center space-x-2">
+                            <i data-lucide="scale" class="w-4 h-4 text-teal-400"></i>
+                            <span>ROUGE Overlap Metrics (Generated vs. Source)</span>
+                        </h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs text-left">
+                                <thead class="text-slate-400 border-b border-slate-800">
+                                    <tr>
+                                        <th class="py-2">Metric</th>
+                                        <th class="py-2">F1 Score</th>
+                                        <th class="py-2">Precision</th>
+                                        <th class="py-2">Recall</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800 text-slate-200">
+                                    <tr>
+                                        <td class="py-2 font-mono">ROUGE-1 (Unigrams)</td>
+                                        <td id="rouge1F1" class="py-2 font-bold text-teal-300">-</td>
+                                        <td id="rouge1Prec" class="py-2">-</td>
+                                        <td id="rouge1Rec" class="py-2">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 font-mono">ROUGE-2 (Bigrams)</td>
+                                        <td id="rouge2F1" class="py-2 font-bold text-cyan-300">-</td>
+                                        <td id="rouge2Prec" class="py-2">-</td>
+                                        <td id="rouge2Rec" class="py-2">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 font-mono">ROUGE-L (LCS Flow)</td>
+                                        <td id="rougeLF1" class="py-2 font-bold text-emerald-300">-</td>
+                                        <td id="rougeLPrec" class="py-2">-</td>
+                                        <td id="rougeLRec" class="py-2">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================== -->
+        <!-- TAB 7: SETTINGS & MODEL CONFIGURATION                          -->
+        <!-- ============================================================== -->
+        <section id="tab-settings" class="tab-content space-y-6">
+            <div class="max-w-2xl mx-auto space-y-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">System Settings & Model Configuration</h2>
+                    <p class="text-sm text-slate-400">Configure your Gemini API key, default models, and offline fallback settings.</p>
+                </div>
+
+                <div class="card p-6 space-y-5">
+                    <div>
+                        <label class="text-xs font-semibold text-slate-300 block mb-1">Google Gemini API Key</label>
+                        <input type="password" id="settingsApiKeyInput" class="input-field text-xs font-mono" placeholder="Enter your Gemini API key (e.g., AIzaSy...)">
+                        <p class="text-xs text-slate-400 mt-1">Stored securely in memory and `.env`.</p>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-semibold text-slate-300 block mb-1">Preferred Gemini Model</label>
+                        <select id="settingsModelSelect" class="input-field text-xs">
+                            <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Ultra Fast & Efficient)</option>
+                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Fast & Lightweight)</option>
+                            <option value="gemini-flash-latest">gemini-flash-latest (General Cloud)</option>
+                            <option value="gemini-3.5-flash">gemini-3.5-flash (Balanced)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-semibold text-slate-300 block mb-1">Engine Operational Mode</label>
+                        <select id="settingsEngineModeSelect" class="input-field text-xs">
+                            <option value="auto">Auto (Gemini live with instant Local fallback)</option>
+                            <option value="gemini">Gemini Only (Strict Cloud)</option>
+                            <option value="local">Local Intelligent NLP Engine (100% Offline / No API key)</option>
+                        </select>
+                    </div>
+
+                    <button onclick="saveSettings()" class="btn-primary w-full flex items-center justify-center space-x-2">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        <span>Save Configuration</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 bg-[#070c16] py-4 text-center text-xs text-slate-400">
+        AI-Powered Generative Content & Document Intelligence Platform • Python & Gemini Architecture
+    </footer>
+
+    <!-- App JavaScript -->
+    <script src="/static/app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

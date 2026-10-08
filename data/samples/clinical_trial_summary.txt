@@ -1,0 +1,31 @@
+# CLINICAL PROTOCOL STUDY REPORT: AVALON-3 STUDY
+
+TITLE: A Phase III Multicenter, Double-Blind, Randomized Trial Evaluating OncoShield-7 (OS-7) in Combination with Standard Chemotherapy in Patients with Metastatic Colorectal Adenocarcinoma
+
+PROTOCOL IDENTIFIER: NCT05928172 | SPONSOR: Biovance Therapeutics Ltd.
+
+1. STUDY OBJECTIVES & ENDPOINTS
+The primary objective of the AVALON-3 study was to determine whether adding OncoShield-7 (an investigational humanized bispecific monoclonal antibody targeting VEGF-A and DLL4) to standard FOLFOXIRI chemotherapy prolongs Progression-Free Survival (PFS) in treatment-naive adult patients with unresectable metastatic colorectal adenocarcinoma.
+- Primary Endpoint: Progression-Free Survival (PFS) assessed by blinded independent central review (BICR) per RECIST v1.1.
+- Secondary Endpoints: Overall Survival (OS), Objective Response Rate (ORR), Duration of Response (DoR), and Safety/Tolerability profile.
+
+2. PATIENT COHORT & DEMOGRAPHICS
+A total of 640 eligible patients across 78 clinical centers in North America and Western Europe were randomized 1:1 between August 2023 and December 2024.
+- Arm A (Experimental, N=320): OncoShield-7 (12 mg/kg IV every 2 weeks) + mFOLFOXIRI.
+- Arm B (Control, N=320): Matched Placebo IV every 2 weeks + mFOLFOXIRI.
+Median patient age was 58.4 years (range 32 to 79). 56.2% of participants were male; 62.5% presented with liver-only metastases, and 28.1% harbored KRAS G12D/V mutations.
+
+3. EFFICACY FINDINGS & STATISTICAL ANALYSIS
+At the predetermined interim analysis (median follow-up: 18.6 months):
+- Median PFS in Arm A was 14.8 months (95% CI: 13.6 to 16.2) compared to 9.4 months in Arm B (95% CI: 8.6 to 10.3).
+- The Hazard Ratio (HR) for progression or death was 0.62 (95% CI: 0.51 to 0.76; p < 0.0001), representing a 38% reduction in risk of disease progression.
+- Confirmed Objective Response Rate (ORR) was 67.8% in Arm A vs 49.1% in Arm B (odds ratio 2.18, p = 0.0002). Complete response (CR) was observed in 8.4% of Arm A patients vs 3.1% in Arm B.
+- Median Overall Survival (OS) at cutoff was 27.4 months in Arm A vs 21.8 months in Arm B (HR = 0.74; p = 0.0084).
+
+4. SAFETY & ADVERSE EVENTS PROFILE
+Treatment-emergent adverse events (TEAEs) of Grade 3 or higher occurred in 64.1% of patients in Arm A versus 52.8% in Arm B.
+- Most frequent Grade 3/4 toxicities in the OS-7 arm: Neutropenia (31.2%), Hypertension (18.4%), Diarrhea (14.1%), and Peripheral Neuropathy (11.6%).
+- Discontinuation of OS-7 due to adverse events was 8.1% (compared to 5.3% in placebo). No treatment-related fatal toxicities were reported in the experimental cohort.
+
+5. REGULATORY CONCLUSION & NEXT STEPS
+The addition of OncoShield-7 demonstrated a statistically significant and clinically meaningful improvement in PFS and OS with an acceptable safety profile. Biovance Therapeutics plans to submit a Biologics License Application (BLA) to the FDA and Marketing Authorization Application (MAA) to the EMA in Q3 2026.

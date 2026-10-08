@@ -1,0 +1,30 @@
+MUTUAL NON-DISCLOSURE AND CONFIDENTIALITY AGREEMENT
+
+This Mutual Non-Disclosure and Confidentiality Agreement ("Agreement") is entered into as of March 15, 2025 ("Effective Date"), by and between:
+1. NexaCorp Technologies Inc., a Delaware corporation with its principal place of business at 500 Silicon Vista Blvd, San Jose, CA ("Disclosing Party" / "Receiving Party"); and
+2. Vanguard Robotics LLC, a Massachusetts limited liability company located at 120 Kendall Square, Cambridge, MA ("Disclosing Party" / "Receiving Party").
+
+RECITALS
+The Parties desire to explore potential joint research, product integration, and commercial collaboration concerning autonomous perception systems and industrial automation (the "Permitted Purpose"). In connection therewith, each Party may disclose proprietary and confidential information to the other.
+
+ARTICLE 1: DEFINITION OF CONFIDENTIAL INFORMATION
+"Confidential Information" means all non-public information, whether oral, written, electronic, or visual, disclosed by either Party to the other, including without limitation source code, algorithmic architectures, training datasets, customer pipelines, product roadmaps, and pricing models. Information marked "ConfIDENTIAL" or which reasonably ought to be treated as confidential shall be protected hereunder.
+
+ARTICLE 2: EXCLUSIONS FROM CONFIDENTIALITY
+Confidential Information shall not include information that:
+(a) is or becomes publicly known through no breach of this Agreement;
+(b) was already in the Receiving Party's rightful possession prior to disclosure without confidentiality obligation;
+(c) is independently developed by the Receiving Party without reference to or reliance upon the Disclosing Party's Confidential Information;
+(d) is rightfully received from a third party authorized to make such disclosure without restriction.
+
+ARTICLE 3: OBLIGATIONS OF RECEIVING PARTY
+The Receiving Party agrees to:
+(i) hold the Confidential Information in strict confidence, exercising at least reasonable care;
+(ii) restrict disclosure solely to employees, officers, and legal advisors who have a verifiable need to know for the Permitted Purpose and who are bound by confidentiality obligations no less restrictive than those herein;
+(iii) not reverse-engineer, decompile, or disassemble any hardware prototypes or software binaries provided under this Agreement.
+
+ARTICLE 4: TERM AND SURVIVAL
+This Agreement shall remain effective for a period of two (2) years from the Effective Date. The confidentiality and non-use obligations set forth in Article 3 shall survive the expiration or termination of this Agreement for an additional period of three (3) years; provided, however, that trade secrets shall remain confidential indefinitely.
+
+ARTICLE 5: GOVERNING LAW AND DISPUTE RESOLUTION
+This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to conflicts of law principles. Any dispute arising under this Agreement shall be submitted to binding arbitration under the rules of the American Arbitration Association in Wilmington, Delaware.

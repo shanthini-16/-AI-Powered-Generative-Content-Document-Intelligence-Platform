@@ -1,0 +1,19 @@
+# APEX DYNAMICS INC. - FISCAL YEAR 2025 ANNUAL FINANCIAL PERFORMANCE REPORT
+
+SECTION 1: FINANCIAL HIGHLIGHTS & EXECUTIVE SUMMARY
+Apex Dynamics Inc. (NASDAQ: APEX) delivered record operational and commercial performance for the fiscal year ended December 31, 2025. Total consolidated revenue reached $4,850,000,000 ($4.85B), representing a 22.4% year-over-year expansion compared to $3,960,000,000 ($3.96B) in fiscal year 2024. 
+
+The company's Enterprise Cloud and Intelligent Platforms division served as the primary growth vector, posting annual recurring revenue (ARR) of $2,180,000,000 ($2.18B), up 34.8% YoY. Cloud gross margin improved by 380 basis points to reach 71.2%, driven by infrastructure efficiencies and optimized compute utilization across North American data centers.
+
+Operating income for the full year expanded to $1,120,000,000 ($1.12B), yielding an operating margin of 23.1%, up from 19.8% in the prior fiscal period. Diluted earnings per share (EPS) totaled $4.32, surpassing consensus analyst guidance of $4.08.
+
+SECTION 2: CASH FLOW, BALANCE SHEET & LIQUIDITY
+Apex Dynamics closed FY2025 with $1,840,000,000 in cash, cash equivalents, and marketable securities. Free cash flow generation reached $940,000,000, achieving a cash conversion rate of 83.9% relative to non-GAAP net income.
+
+Capital expenditures (CapEx) for 2025 totaled $320,000,000, principally committed to high-density GPU cluster deployment, sovereign cloud compliance certifications, and zero-trust security infrastructure. Total outstanding long-term debt stands at $650,000,000 at a fixed weighted-average interest rate of 3.85%, with no substantial maturities scheduled before October 2029.
+
+SECTION 3: STRATEGIC ACQUISITIONS & RESEARCH
+In June 2025, Apex completed the strategic acquisition of TensorBridge Systems for $410,000,000 in cash and stock, incorporating 142 patents in multi-modal vector search and agentic workflow orchestration. R&D expenditure amounted to $780,000,000, or 16.1% of revenue, reinforcing Apex's technological moat.
+
+SECTION 4: FISCAL YEAR 2026 GUIDANCE & OUTLOOK
+Management projects fiscal year 2026 revenue between $5,550,000,000 and $5,700,000,000, reflecting anticipated growth of 14% to 17.5%. Operating margin is forecasted between 23.5% and 24.5%. Key risks include foreign exchange volatility in EMEA markets, regulatory scrutiny regarding enterprise AI data governance, and potential enterprise budget tightening.

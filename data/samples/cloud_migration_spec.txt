@@ -1,0 +1,32 @@
+# TECHNICAL ARCHITECTURE SPECIFICATION: PROJECT HELIOS CLOUD MIGRATION
+
+DOCUMENT ID: SPEC-ENG-2025-08 | AUTHOR: Cloud Infrastructure Architecture Group
+STATUS: APPROVED FOR IMPLEMENTATION | REVISION: 2.4
+
+1. EXECUTIVE OVERVIEW & ARCHITECTURAL OBJECTIVES
+Project Helios governs the phased lift, containerization, and modernization of OmniGlobal's core transactional banking ledger from on-premises legacy IBM mainframe systems to a multi-region Google Cloud Platform (GCP) Kubernetes infrastructure.
+Primary objectives include:
+- Achieving 99.999% high-availability SLA (maximum 5.26 minutes unplanned downtime annually).
+- Reducing peak p99 end-to-end transaction latency from 420ms to under 45ms.
+- Decreasing annual data center infrastructure operating expenses by $18,400,000 (37.5%).
+
+2. TARGET SYSTEM ARCHITECTURE
+The new architecture adopts an event-driven microservices topology organized across three tiers:
+- Edge Ingress Tier: Cloud Armor DDoS mitigation + Global Cloud Load Balancing with TLS 1.3 termination and mutual TLS (mTLS) for bank partner APIs.
+- Microservices Compute Tier: Managed Google Kubernetes Engine (GKE) Enterprise clusters deployed across two primary regions (us-central1 and us-east4) with active-active topology. Autoscaling scales between 40 and 400 node pods with zero-downtime rolling upgrades.
+- Distributed Data Tier: Google Cloud Spanner multi-region instance (nam3 configuration) providing synchronous write replication with external consistency, paired with Redis Enterprise in-memory caches for high-frequency account balance queries.
+
+3. SECURITY, COMPLIANCE & ZERO-TRUST CONTROLS
+- Encryption Standards: All data in transit encrypted using TLS 1.3 with AES-256-GCM. All persistent disks encrypted using Customer-Managed Encryption Keys (CMEK) managed via Cloud KMS with automatic 90-day key rotation.
+- Identity & Access Management: Workload Identity Federation eliminates long-lived service account keys. All microservices enforce fine-grained Istio Service Mesh authorization policies.
+- Compliance Certifications: Architecture conforms to PCI-DSS Level 1 v4.0, SOC 2 Type II, and Federal Reserve FFIEC cybersecurity examination standards.
+
+4. PHASED DEPLOYMENT TIMELINE & ROLLOUT MILESTONES
+- Phase 1 (Q1 2026): VPC network backbone provisioning, Direct Interconnect 100 Gbps dedicated pipes, and test harness validation.
+- Phase 2 (Q2 2026): Read-only shadow traffic mirroring at 10% to 100% volume to validate data consistency and latency parity.
+- Phase 3 (Q3 2026): Canary write migration for Tier-3 non-critical retail accounts (representing 15% volume).
+- Phase 4 (Q4 2026): Full production cutover of core ledger and retirement of legacy mainframe contracts.
+
+5. DISASTER RECOVERY & INCIDENT RECOVERY OBJECTIVES
+- Recovery Point Objective (RPO): 0 seconds (enforced by multi-region Cloud Spanner synchronous replication).
+- Recovery Time Objective (RTO): Under 30 seconds for automated regional traffic diversion via Cloud DNS routing policies.
