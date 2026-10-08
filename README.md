@@ -6,6 +6,9 @@
 [![Pydantic](https://img.shields.io/badge/Pydantic-2.13-emerald.svg)](https://docs.pydantic.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3-06b6d4.svg)](https://tailwindcss.com/)
 [![Chart.js](https://img.shields.io/badge/Chart.js-v4-ff6384.svg)](https://www.chartjs.org/)
+[![Live Demo on Render](https://img.shields.io/badge/Render-Live%20Demo-00e599.svg?logo=render&logoColor=white)](https://ai-powered-generative-content-document.onrender.com)
+
+> 🌐 **Live Demo Application**: [https://ai-powered-generative-content-document.onrender.com](https://ai-powered-generative-content-document.onrender.com)
 
 An enterprise-grade, end-to-end **AI-Powered Generative Content & Document Intelligence Platform** designed to ingest complex multi-format corporate files, execute context-aware multi-step generative workflows, enforce strict Pydantic schema validation, and evaluate outputs across quantitative quality benchmarks (Relevance, Consistency, Factuality, Readability, and ROUGE metrics).
 
